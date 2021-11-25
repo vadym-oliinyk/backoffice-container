@@ -2,7 +2,7 @@ import { mount } from 'auth/AuthApp';
 import React, { useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-export default ({ onSignIn }: any) => {
+const AuthApp = ({ onSignIn }: any) => {
   const ref = useRef(null);
   const history = useHistory();
 
@@ -24,3 +24,5 @@ export default ({ onSignIn }: any) => {
 
   return <div ref={ref} />;
 };
+
+export default AuthApp;
