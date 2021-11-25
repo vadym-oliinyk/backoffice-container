@@ -3,13 +3,18 @@ import React, { useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 const AuthApp = ({ onSignIn }: any) => {
-  const ref = useRef(null);
+  const authRef = useRef<HTMLDivElement>(null);
   const history = useHistory();
 
   useEffect(() => {
-    const { onParentNavigate } = mount(ref.current, {
+    const { current } = authRef;
+    if (!current) {
+      return;
+    }
+
+    const { onParentNavigate } = mount(current, {
       initialPath: history.location.pathname,
-      onNavigate: ({ pathname: nextPathname }: any) => {
+      onNavigate: ({ pathname: nextPathname }) => {
         const { pathname } = history.location;
 
         if (pathname !== nextPathname) {
@@ -22,7 +27,7 @@ const AuthApp = ({ onSignIn }: any) => {
     history.listen(onParentNavigate);
   }, []);
 
-  return <div ref={ref} />;
+  return <div ref={authRef} />;
 };
 
 export default AuthApp;

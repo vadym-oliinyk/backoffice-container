@@ -1,5 +1,18 @@
-declare module "auth/AuthApp" {
-  const mount: any;
+interface NestedMFEOptions {
+  initialPath: string;
+  defaultHistory?: any;
+  onSignIn: () => void;
+  onNavigate: ({ pathname: string }) => void;
+}
 
-  export {mount};
+interface NestedMFEMountResult {
+  onParentNavigate: ({ pathname: string }) => void;
+}
+declare module 'auth/*' {
+  const mount: (
+    el: HTMLElement,
+    options: NestedMFEOptions,
+  ) => NestedMFEMountResult;
+
+  export { mount };
 }

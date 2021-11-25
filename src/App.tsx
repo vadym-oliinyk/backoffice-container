@@ -1,15 +1,18 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 import {
   StylesProvider,
   createGenerateClassName,
 } from '@material-ui/core/styles';
-import { createBrowserHistory } from 'history';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
-import Progress from './components/Progress';
-import Header from './components/Header';
+import Progress from './components/Progress/Progress';
+import Header from './layouts/Header';
+import { useAuth } from './hooks/useAuth';
 
-const AuthLazy = lazy(() => import('./components/AuthApp'));
+const Auth = lazy(() => import('./apps/Auth'));
 
 const generateClassName = createGenerateClassName({
   productionPrefix: 'co',
@@ -18,7 +21,7 @@ const generateClassName = createGenerateClassName({
 const history = createBrowserHistory();
 
 const App = () => {
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const { isSignedIn, signIn, signOut } = useAuth();
 
   useEffect(() => {
     if (isSignedIn) {
@@ -28,16 +31,15 @@ const App = () => {
 
   return (
     <Router history={history}>
+      <CssBaseline />
+
       <StylesProvider generateClassName={generateClassName}>
         <div>
-          <Header
-            onSignOut={() => setIsSignedIn(false)}
-            isSignedIn={isSignedIn}
-          />
+          <Header onSignOut={signOut} isSignedIn={isSignedIn} />
           <Suspense fallback={<Progress />}>
             <Switch>
               <Route path="/auth">
-                <AuthLazy onSignIn={() => setIsSignedIn(true)} />
+                <Auth onSignIn={signIn} />
               </Route>
             </Switch>
           </Suspense>
