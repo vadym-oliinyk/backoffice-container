@@ -1,14 +1,17 @@
-import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Link as RouterLink } from 'react-router-dom';
 
 import { useStyles } from './styles';
+import { HeaderProps } from './types';
 
-export default function Header({ isSignedIn, onSignOut }: any) {
+export default function Header({
+  isSignedIn,
+  onSignOut,
+  onMenuToggle,
+}: HeaderProps) {
   const classes = useStyles();
 
   const onClick = () => {
@@ -27,7 +30,7 @@ export default function Header({ isSignedIn, onSignOut }: any) {
       >
         <Toolbar className={classes.toolbar}>
           {isSignedIn && (
-            <IconButton color="primary">
+            <IconButton color="primary" onClick={onMenuToggle}>
               <MenuIcon />
             </IconButton>
           )}
@@ -36,8 +39,6 @@ export default function Header({ isSignedIn, onSignOut }: any) {
             color="primary"
             variant="outlined"
             className={classes.login}
-            component={RouterLink}
-            to={isSignedIn ? '/' : '/auth/signin'}
             onClick={onClick}
           >
             {isSignedIn ? 'Logout' : 'Login'}
