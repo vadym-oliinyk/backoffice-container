@@ -1,20 +1,18 @@
-import { useState } from 'react';
+import { User } from '../../types/user';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 import { AUTH_STORAGE_KEY } from './constants';
 
 export function useAuth() {
-  const initialIsSignIn = Boolean(localStorage.getItem(AUTH_STORAGE_KEY));
-  const [isSignedIn, setIsSignedIn] = useState(initialIsSignIn);
+  const [user, setUser] = useLocalStorage<User | null>(AUTH_STORAGE_KEY, null);
 
-  function signIn() {
-    setIsSignedIn(true);
-    localStorage.setItem(AUTH_STORAGE_KEY, 'true');
+  function signIn(newUser: User) {
+    setUser(newUser);
   }
 
   function signOut() {
-    setIsSignedIn(false);
-    localStorage.removeItem(AUTH_STORAGE_KEY);
+    setUser(null);
   }
 
-  return { isSignedIn, signIn, signOut };
+  return { isSignedIn: Boolean(user), user, signIn, signOut };
 }

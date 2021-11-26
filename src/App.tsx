@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { lazy, Suspense, useState, useEffect } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import {
@@ -11,6 +11,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Progress from './components/Progress/Progress';
 import Header from './layouts/Header';
 import { useAuth } from './hooks/useAuth';
+import { User } from './types/user';
 
 const Auth = lazy(() => import('./apps/Auth'));
 
@@ -21,13 +22,18 @@ const generateClassName = createGenerateClassName({
 const history = createBrowserHistory();
 
 const App = () => {
-  const { isSignedIn, signIn, signOut } = useAuth();
+  const { isSignedIn, user, signIn, signOut } = useAuth();
 
   useEffect(() => {
-    if (isSignedIn) {
-      history.push('/dashboard');
+    if (!isSignedIn) {
+      history.replace('/auth/signin');
     }
   }, [isSignedIn]);
+
+  function onSignIn(newUser: User): void {
+    signIn(newUser);
+    history.push('/');
+  }
 
   return (
     <Router history={history}>
@@ -39,7 +45,7 @@ const App = () => {
           <Suspense fallback={<Progress />}>
             <Switch>
               <Route path="/auth">
-                <Auth onSignIn={signIn} />
+                <Auth onSignIn={onSignIn} />
               </Route>
             </Switch>
           </Suspense>
