@@ -1,7 +1,7 @@
 import BaseMenuList from '@mui/material/MenuList';
 import BaseMenuItem from '@mui/material/MenuItem';
 import BaseListItemIcon from '@mui/material/ListItemIcon';
-import { Link as BaseLink } from 'react-router-dom';
+import { NavLink as BaseLink } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 
 import { MenuListStyledProps } from './types';
@@ -19,10 +19,7 @@ export const MenuList = styled(BaseMenuList, {
 }));
 
 export const MenuItem = styled(BaseMenuItem)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: '17px 15px',
-  color: theme.palette.primary.dark,
+  padding: 0,
   borderBottom: `1px solid ${theme.palette.divider}`,
 }));
 
@@ -31,7 +28,20 @@ export const ListItemIcon = styled(BaseListItemIcon)(({ theme }) => ({
 }));
 
 export const Link = styled(BaseLink)`
-  display: contents;
+  width: 100%;
   text-decoration: none;
   color: inherit;
+  display: flex;
+  align-items: center;
+  padding: 17px 15px;
+  color: ${({ theme }) => theme.palette.primary.dark};
+
+  &.active {
+    background-color: ${({ theme }) => theme.palette.primary.main};
+    color: ${({ theme }) => theme.palette.grey[100]};
+
+    & .MuiListItemIcon-root {
+      color: ${({ theme }) => theme.palette.grey[100]};
+    }
+  }
 `;

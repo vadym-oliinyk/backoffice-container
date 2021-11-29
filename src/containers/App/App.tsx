@@ -14,6 +14,7 @@ import { User } from '../../types/user';
 import { Content, Paper } from './styles';
 
 const Auth = lazy(() => import('../../apps/Auth'));
+const CMS = lazy(() => import('../../apps/CMS'));
 
 const generateClassName = createGenerateClassName({
   productionPrefix: 'co',
@@ -48,6 +49,7 @@ const App = () => {
         <div>
           <Header
             onSignOut={signOut}
+            userName={user?.login}
             isSignedIn={isSignedIn}
             onMenuToggle={toggleMenu}
           />
@@ -56,7 +58,7 @@ const App = () => {
             {isSignedIn && (
               <Menu
                 isOpen={isMenuOpened}
-                permissions={user?.permissions || []}
+                permissions={(user as User).permissions || []}
               />
             )}
 
@@ -65,6 +67,9 @@ const App = () => {
                 <Switch>
                   <Route path="/auth">
                     <Auth onSignIn={onSignIn} />
+                  </Route>
+                  <Route path="/cms">
+                    <CMS userToken={(user as User).token} />
                   </Route>
                 </Switch>
               </Suspense>

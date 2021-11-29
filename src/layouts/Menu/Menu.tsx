@@ -9,10 +9,12 @@ import { MenuProps } from './types';
 const Menu: FC<MenuProps> = ({ isOpen, permissions }) => (
   <MenuList isOpen={isOpen}>
     <MenuItem>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText>Dashboard</ListItemText>
+      <Link to="/" exact>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText>Dashboard</ListItemText>
+      </Link>
     </MenuItem>
 
     {permissions.map((permission) => {

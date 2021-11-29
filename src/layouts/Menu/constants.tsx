@@ -8,7 +8,7 @@ export const MENU_ITEMS_MAP = {
   [Permission.Content]: {
     title: 'CMS',
     icon: <LibraryBooksIcon />,
-    href: '/',
+    href: '/cms/posts',
   },
   [Permission.Advert]: {
     title: 'Advert',

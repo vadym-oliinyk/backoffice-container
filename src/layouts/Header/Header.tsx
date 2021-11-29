@@ -1,11 +1,19 @@
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import { AppBar, Button, Toolbar } from './styles';
+import {
+  AppBar,
+  Button,
+  Toolbar,
+  AvatarWrap,
+  RightBox,
+  Avatar,
+} from './styles';
 import { HeaderProps } from './types';
 
 export default function Header({
   isSignedIn,
+  userName,
   onSignOut,
   onMenuToggle,
 }: HeaderProps) {
@@ -25,9 +33,18 @@ export default function Header({
             </IconButton>
           )}
 
-          <Button color="primary" variant="outlined" onClick={onClick}>
-            {isSignedIn ? 'Logout' : 'Login'}
-          </Button>
+          <RightBox>
+            {isSignedIn && (
+              <AvatarWrap>
+                <Avatar />
+                <div>{userName}</div>
+              </AvatarWrap>
+            )}
+
+            <Button color="primary" variant="outlined" onClick={onClick}>
+              {isSignedIn ? 'Logout' : 'Login'}
+            </Button>
+          </RightBox>
         </Toolbar>
       </AppBar>
     </>
