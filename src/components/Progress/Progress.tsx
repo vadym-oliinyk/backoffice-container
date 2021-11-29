@@ -1,26 +1,12 @@
 import React from 'react';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import LinearProgress from '@mui/material/LinearProgress';
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    bar: {
-      width: '100%',
-      '& > * + *': {
-        marginTop: theme.spacing(2),
-      },
-    },
-  }),
+import { Bar } from './styles';
+
+const Progress = () => (
+  <Bar>
+    <LinearProgress />
+  </Bar>
 );
-
-const Progress = () => {
-  const classes = useStyles();
-
-  return (
-    <div className={classes.bar}>
-      <LinearProgress />
-    </div>
-  );
-};
 
 export default Progress;

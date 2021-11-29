@@ -1,10 +1,7 @@
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 
-import { useStyles } from './styles';
+import { AppBar, Button, Toolbar } from './styles';
 import { HeaderProps } from './types';
 
 export default function Header({
@@ -12,8 +9,6 @@ export default function Header({
   onSignOut,
   onMenuToggle,
 }: HeaderProps) {
-  const classes = useStyles();
-
   const onClick = () => {
     if (isSignedIn && onSignOut) {
       onSignOut();
@@ -22,25 +17,15 @@ export default function Header({
 
   return (
     <>
-      <AppBar
-        position="static"
-        color="default"
-        elevation={0}
-        className={classes.appBar}
-      >
-        <Toolbar className={classes.toolbar}>
+      <AppBar position="static" color="default" elevation={0}>
+        <Toolbar>
           {isSignedIn && (
             <IconButton color="primary" onClick={onMenuToggle}>
               <MenuIcon />
             </IconButton>
           )}
 
-          <Button
-            color="primary"
-            variant="outlined"
-            className={classes.login}
-            onClick={onClick}
-          >
+          <Button color="primary" variant="outlined" onClick={onClick}>
             {isSignedIn ? 'Logout' : 'Login'}
           </Button>
         </Toolbar>

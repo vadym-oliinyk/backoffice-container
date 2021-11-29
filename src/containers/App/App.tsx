@@ -2,11 +2,9 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import {
-  StylesProvider,
-  createGenerateClassName,
-} from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { StylesProvider, createGenerateClassName } from '@mui/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme } from '@mui/material/styles';
 
 import Progress from '../../components/Progress/Progress';
 import Header from '../../layouts/Header';
@@ -14,8 +12,7 @@ import Menu from '../../layouts/Menu';
 import { useAuth } from '../../hooks/useAuth';
 import { User } from '../../types/user';
 
-import { useStyles } from './styles';
-import Button from '@material-ui/core/Button';
+import { Content, Paper } from './styles';
 
 const Auth = lazy(() => import('../../apps/Auth'));
 
@@ -25,11 +22,11 @@ const generateClassName = createGenerateClassName({
 
 const history = createBrowserHistory();
 
+const customTheme = createTheme();
+
 const App = () => {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
   const { isSignedIn, user, signIn, signOut } = useAuth();
-
-  const classes = useStyles();
 
   useEffect(() => {
     if (!isSignedIn) {
@@ -51,6 +48,7 @@ const App = () => {
       <CssBaseline />
 
       <StylesProvider generateClassName={generateClassName}>
+        {/* <ThemeProvider> */}
         <div>
           <Header
             onSignOut={signOut}
@@ -58,18 +56,21 @@ const App = () => {
             onMenuToggle={toggleMenu}
           />
 
-          <div className={classes.root}>
+          <Paper>
             <Menu isOpen={isMenuOpened} />
 
-            <Suspense fallback={<Progress />}>
-              <Switch>
-                <Route path="/auth">
-                  <Auth onSignIn={onSignIn} />
-                </Route>
-              </Switch>
-            </Suspense>
-          </div>
+            <Content>
+              <Suspense fallback={<Progress />}>
+                <Switch>
+                  <Route path="/auth">
+                    <Auth onSignIn={onSignIn} />
+                  </Route>
+                </Switch>
+              </Suspense>
+            </Content>
+          </Paper>
         </div>
+        {/* </ThemeProvider> */}
       </StylesProvider>
     </Router>
   );
