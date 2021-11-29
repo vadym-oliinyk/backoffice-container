@@ -1,16 +1,13 @@
 import { FC } from 'react';
 import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import EqualizerIcon from '@mui/icons-material/Equalizer';
-import GroupIcon from '@mui/icons-material/Group';
-import Divider from '@mui/material/Divider';
 
-import { MenuList, MenuItem, ListItemIcon } from './styles';
+import { MenuList, MenuItem, ListItemIcon, Divider, Link } from './styles';
+import { MENU_ITEMS_MAP } from './constants';
 import { MenuProps } from './types';
 
-const Menu: FC<MenuProps> = ({ isOpen }) => (
-  <MenuList>
+const Menu: FC<MenuProps> = ({ isOpen, permissions }) => (
+  <MenuList isOpen={isOpen}>
     <MenuItem>
       <ListItemIcon>
         <DashboardIcon />
@@ -19,29 +16,21 @@ const Menu: FC<MenuProps> = ({ isOpen }) => (
     </MenuItem>
     <Divider />
 
-    <MenuItem>
-      <ListItemIcon>
-        <LibraryBooksIcon />
-      </ListItemIcon>
-      <ListItemText>CMS</ListItemText>
-    </MenuItem>
-    <Divider />
+    {permissions.map((permission) => {
+      const { title, href, icon } = MENU_ITEMS_MAP[permission];
 
-    <MenuItem>
-      <ListItemIcon>
-        <EqualizerIcon />
-      </ListItemIcon>
-      <ListItemText>Advert</ListItemText>
-    </MenuItem>
-    <Divider />
-
-    <MenuItem>
-      <ListItemIcon>
-        <GroupIcon />
-      </ListItemIcon>
-      <ListItemText>User</ListItemText>
-    </MenuItem>
-    <Divider />
+      return (
+        <>
+          <MenuItem>
+            <Link to={href}>
+              <ListItemIcon>{icon}</ListItemIcon>
+              <ListItemText>{title}</ListItemText>
+            </Link>
+          </MenuItem>
+          <Divider />
+        </>
+      );
+    })}
   </MenuList>
 );
 
