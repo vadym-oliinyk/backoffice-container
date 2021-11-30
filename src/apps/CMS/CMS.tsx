@@ -3,6 +3,7 @@ import React, { useRef, useEffect, FC } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { CMSAppProps } from './types';
+import { Wrapper } from './styles';
 
 const CMSApp: FC<CMSAppProps> = ({ userToken }) => {
   const CMSRef = useRef<HTMLDivElement>(null);
@@ -29,7 +30,11 @@ const CMSApp: FC<CMSAppProps> = ({ userToken }) => {
     history.listen(onParentNavigate);
   }, []);
 
-  return <div ref={CMSRef} />;
+  return (
+    <Wrapper>
+      <div ref={CMSRef} />
+    </Wrapper>
+  );
 };
 
 export default CMSApp;
